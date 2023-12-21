@@ -112,7 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "Denomination_du_medicament LIKE ? AND " +
                 "Forme_pharmaceutique LIKE ? AND " +
                 "Titulaires LIKE ? AND " +
-                "Code_CIS IN (SELECT Code_CIS FROM CIS_COMPO_bdpm WHERE Designation_element LIKE ?) " +
+                "Code_CIS IN (SELECT Code_CIS FROM CIS_COMPO_bdpm WHERE Denomination_substance LIKE ?) " +
                 finSQL;
 
         // Les valeurs à remplacer dans la requête
