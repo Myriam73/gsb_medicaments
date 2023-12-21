@@ -103,8 +103,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String finSQL ="";
 
         if (!voiesAdmin.equals(PREMIERE_VOIE)){
-            finSQL ="AND  Voies_dadministration = ?";
-            selectionArgs.add(voiesAdmin);
+            finSQL ="AND  Voies_dadministration LIKE ?";
+            selectionArgs.add("%" + voiesAdmin + "%");
         }
 
         // La requête SQL de recherche
