@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".authentification">
+
+    <!-- EditText for entering visitor code -->
+    <EditText
+        android:id="@+id/codeV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Code visiteur"/>
+
+    <!-- Bouton de validation qui permet de generer la cle secrete et l'envoyer par email -->
+
+    <Button
+        android:id="@+id/btnValiderCodeV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="AfficheLayout"
+        android:text="Valider"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/layoutCle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!-- EditText for entering the key recived by email -->
+
+        <EditText
+            android:id="@+id/myKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Clé secrète"/>
+        <Button
+            android:id="@+id/btnValiderCle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Valider"/>
+    </LinearLayout>
+</LinearLayout>
