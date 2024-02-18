@@ -1,7 +1,11 @@
 package fr.be2.gsb_medicaments;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,11 +22,20 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSearch;
     private ListView listViewResults;
     private DatabaseHelper dbHelper;
+    private static final String PREF_NAME = "UserPrefs";
+    private static final String KEY_USER_STATUS = "userStatus";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (!isUserAuthenticated()) {
+            // L'utilisateur n'est pas authentifié, redirigez vers l'activité d'authentification
+            Intent authIntent = new Intent(this, authentification.class);
+            startActivity(authIntent);
+            finish(); // Terminez l'activité principale pour éviter qu'elle ne soit accessible avec le bouton "Retour"
+        }
 
         // Initialize UI components
         editTextDenomination = findViewById(R.id.editTextDenomination);
@@ -45,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Perform the search and update the ListView
                 performSearch();
+                cacherClavier();
             }
         });
     }
@@ -73,4 +87,41 @@ public class MainActivity extends AppCompatActivity {
         MedicamentAdapter adapter = new MedicamentAdapter(this, searchResults);
         listViewResults.setAdapter(adapter);
     }
+
+    private void cacherClavier() {
+        // Obtenez le gestionnaire de fenêtre
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // Obtenez la vue actuellement focalisée, qui devrait être la vue avec le clavier
+        View vueCourante = getCurrentFocus();
+
+        // Vérifiez si la vue est non nulle pour éviter les erreurs
+        if (vueCourante != null) {
+            // Masquez le clavier
+            imm.hideSoftInputFromWindow(vueCourante.getWindowToken(), 0);
+        }
+    }
+
+    private boolean isUserAuthenticated() {
+
+        SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+
+        // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String userStatus = preferences.getString(KEY_USER_STATUS, "");
+
+        // Vérifiez si la chaîne d'état de l'utilisateur est "authentification=OK"
+        return "authentification=OK".equals(userStatus);
+    }
+
+    public void deconnexion(View v) {
+        Intent authIntent = new Intent(this, authentification.class);
+        startActivity(authIntent);
+        finish();
+    }
+
+    public void quitter(View V){
+        finishAffinity();
+    }
+
+
 }
