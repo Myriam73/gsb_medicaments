@@ -1,6 +1,8 @@
 package fr.be2.gsb_medicaments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -61,6 +63,16 @@ public class MainActivity extends AppCompatActivity {
                 cacherClavier();
             }
         });
+        listViewResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                   @Override
+                                                   public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                                                       // Get the selected item
+                                                       Medicament selectedMedicament = (Medicament) adapterView.getItemAtPosition(position);
+                                                       // Show composition of the selected medicament
+                                                       afficherCompositionMedicament(selectedMedicament);
+                                                   }
+                                               }
+        );
     }
 
     private void setupVoiesAdminSpinner() {
@@ -123,5 +135,21 @@ public class MainActivity extends AppCompatActivity {
         finishAffinity();
     }
 
+    private void afficherCompositionMedicament(Medicament medicament) {
+        // Ici, vous pouvez implémenter la logique pour afficher la composition du médicament
+        // Vous pouvez utiliser une boîte de dialogue, une nouvelle activité ou une autre méthode selon vos besoins.
+        // Par exemple, une boîte de dialogue simple pour afficher la composition :
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Composition de " + medicament.getDenomination());
+        builder.setMessage("Code CIS: " + medicament.getCodeCIS() + "\n");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
 }
