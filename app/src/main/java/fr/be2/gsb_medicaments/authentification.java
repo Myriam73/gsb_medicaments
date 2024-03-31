@@ -42,7 +42,7 @@ public class authentification extends AppCompatActivity {
 
     public void AfficheLayout(View v){
         myRandomKey = genererChaineAleatoire(5);
-       // Log.d("APPLI", "myKey="+myRandomKey);
+       Log.d("APPLI", "myKey="+myRandomKey);
 
         String codeVisiteur = CodeV.getText().toString();
 
