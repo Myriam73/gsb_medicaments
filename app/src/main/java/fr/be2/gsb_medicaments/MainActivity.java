@@ -137,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void afficherCompositionMedicament(Medicament medicament) {
         List<String> composition = dbHelper.getCompositionMedicament(medicament.getCodeCIS());
+        List<String> presentation = dbHelper.getPresentationMedicament(medicament.getCodeCIS());
+
 
         // Afficher la composition du médicament dans une boîte de dialogue ou autre méthode d'affichage
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -145,10 +147,15 @@ public class MainActivity extends AppCompatActivity {
             builder.setMessage("Aucune composition disponible pour ce médicament.");
         } else {
             StringBuilder compositionText = new StringBuilder();
+            StringBuilder presentationText = new StringBuilder();
             for (String item : composition) {
                 compositionText.append(item).append("\n");
+                }
+            for (String item :presentation){
+                presentationText.append(item).append("\n");
             }
-            builder.setMessage(compositionText.toString());
+
+            builder.setMessage(compositionText.toString() + ("\n") + "Présentations de "+ medicament.getCodeCIS() + ("\n") + ("\n") + presentationText.toString() );
         }
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -158,5 +165,6 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
 
 }

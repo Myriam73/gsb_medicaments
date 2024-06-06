@@ -145,6 +145,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 medicament.setVoiesAdmin(voiesAdminMedicament);
                 medicament.setTitulaires(titulairesMedicament);
                 medicament.setStatutAdministratif(statutAdminMedicament);
+                medicament.setNbMolecule(getNbMollecules(codeCIS));
 
                 // Ajouter l'objet Medicament à la liste
                 medicamentList.add(medicament);
@@ -227,6 +228,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return pattern.matcher(normalized).replaceAll("");
     }
 
+    // Retourne la composition du médicament sur lequel on clique
     public List<String> getCompositionMedicament(int codeCIS) {
         List<String> compositionList = new ArrayList<>();
 
@@ -248,4 +250,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return compositionList;
     }
 
+    // Retourne la présentation du médicament sur lequel on clique
+    public List<String> getPresentationMedicament(int codeCIS) {
+        List<String> presentationList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT Libelle_presentation FROM CIS_CIP_bdpm WHERE Code_CIS = ?", new String[]{String.valueOf(codeCIS)});
+        int i=0;
+        if (cursor.moveToFirst()) {
+            do {
+                i++;
+                String presentation = cursor.getString(cursor.getColumnIndex("Libelle_presentation"));
+                presentationList.add(i+":"+presentation + "");
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return presentationList;
+    }
+
+
+    public int getNbMollecules(int codeCIS) {
+        ArrayList<String> selectionArgs = new ArrayList<>();
+        //selectionArgs.add(String.valueOf(codeCIS);
+        SQLiteDatabase db = this.getReadableDatabase();
+        //selectionArgs.toArray(new String[0]));
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM CIS_compo_bdpm WHERE Code_CIS = ?",new String[]{String.valueOf(codeCIS)});
+        cursor.moveToFirst();
+        return cursor.getInt(0);
+    }
 }

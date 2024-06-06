@@ -43,4 +43,10 @@
         android:layout_height="wrap_content"
         android:text="Statut_Administratif: " />
 
+    <TextView
+        android:id="@+id/tvnbMolecules"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre_Molecules: " />
+
 </LinearLayout>

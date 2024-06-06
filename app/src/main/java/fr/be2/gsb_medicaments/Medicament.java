@@ -7,6 +7,7 @@ public class Medicament {
     private String voiesAdmin;
     private String titulaires;
     private String statutAdmin;
+    private int nbMolecules;
 
     // Constructeur
 
@@ -60,5 +61,11 @@ public class Medicament {
 
     public void setStatutAdministratif(String statutAdmin) {
         this.statutAdmin = statutAdmin;
+    }
+
+    public String getnbMolecules() {return String.valueOf(nbMolecules);}
+
+    public void setNbMolecule(int nbMolecules) {
+        this.nbMolecules = nbMolecules;
     }
 }
